@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>انتخاب کشور | کار در ترکیه یا عراق</title>
+    <meta name="description" content="کار در ترکیه یا عراق — کدام کشور را انتخاب می‌کنید؟">
+    
+    <!-- فونت وزیرمتن -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* لایه تیره روی بک‌گراند */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 900;
+            color: #FFFFFF;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 15px rgba(0,0,0,0.5);
+            line-height: 1.6;
+        }
+
+        .country-circle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+            border: 4px solid rgba(255,255,255,0.8);
+        }
+
+        .country-circle:hover {
+            transform: scale(1.08);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+        }
+
+        .country-circle:active {
+            transform: scale(0.95);
+        }
+
+        /* ترکیه */
+        .turkey-circle {
+            background: linear-gradient(135deg, #E30A17 0%, #C00814 50%, #E30A17 100%);
+        }
+
+        /* عراق */
+        .iraq-circle {
+            background: linear-gradient(135deg, #007A3D 0%, #005C2E 50%, #007A3D 100%);
+        }
+
+        .country-en {
+            font-size: 32px;
+            font-weight: 900;
+            color: #FFFFFF;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .country-fa {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFFFFF;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .country-icon {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        .divider {
+            width: 80px;
+            height: 2px;
+            background: rgba(255,255,255,0.5);
+            margin: 0 auto 30px;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 400px) {
+            .country-circle {
+                width: 180px;
+                height: 180px;
+            }
+            .country-en {
+                font-size: 26px;
+            }
+            .country-fa {
+                font-size: 20px;
+            }
+            .title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="title">کدام کشور را انتخاب می‌کنی؟</h1>
+        
+        <!-- ترکیه -->
+        <a href="turkey.html" class="country-circle turkey-circle" id="turkeyLink">
+            <span class="country-icon">🇹🇷</span>
+            <span class="country-en">TURKEY</span>
+            <span class="country-fa">ترکیه</span>
+        </a>
+        
+        <div class="divider"></div>
+        
+        <!-- عراق -->
+        <a href="iraq.html" class="country-circle iraq-circle" id="iraqLink">
+            <span class="country-icon">🇮🇶</span>
+            <span class="country-en">IRAQ</span>
+            <span class="country-fa">عراق</span>
+        </a>
+    </div>
+
+    <script>
+        // ============ آرایه بک‌گراندها ============
+        // ۱۰ جایگاه — اگه ۶ تا عکس داری، ۴ تای آخر رو خالی بذار
+        // یا فقط همین ۶ تا رو نگه دار
+        const backgrounds = [
+            'bg1.png',
+            'bg2.png',
+            'bg3.png',
+            'bg4.png',
+            'bg5.png',
+            'bg6.png',
+            'bg7.png',
+            'bg8.png',
+            'bg9.png',
+            'bg10.png'
+        ];
+
+        // فیلتر کردن جایگاه‌های خالی
+        const validBackgrounds = backgrounds.filter(bg => bg.trim() !== '');
+
+        // ============ انتخاب رندوم بک‌گراند ============
+        function getRandomBackground() {
+            // چک کردن sessionStorage برای جلسه فعلی
+            const savedBg = sessionStorage.getItem('selectedBackground');
+            
+            if (savedBg) {
+                return savedBg;
+            }
+            
+            // انتخاب رندوم
+            const randomIndex = Math.floor(Math.random() * validBackgrounds.length);
+            const selected = validBackgrounds[randomIndex];
+            
+            // ذخیره برای جلسه فعلی
+            sessionStorage.setItem('selectedBackground', selected);
+            
+            return selected;
+        }
+
+        // اعمال بک‌گراند
+        function applyBackground() {
+            const bg = getRandomBackground();
+            document.body.style.backgroundImage = `url('${bg}')`;
+        }
+
+        applyBackground();
+
+        // ============ جلوگیری از برگشت به این صفحه ============
+        // وقتی کاربر روی یکی از دکمه‌ها کلیک می‌کنه
+        document.getElementById('turkeyLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            // حذف تاریخچه این صفحه تا کاربر نتونه برگرده
+            history.replaceState(null, '', 'turkey.html');
+            window.location.href = 'turkey.html';
+        });
+
+        document.getElementById('iraqLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            // حذف تاریخچه این صفحه تا کاربر نتونه برگرده
+            history.replaceState(null, '', 'iraq.html');
+            window.location.href = 'iraq.html';
+        });
+
+        // ============ جلوگیری از Back ============
+        // اگه کاربر با Back وارد این صفحه بشه، فوراً خارج می‌شه
+        history.pushState(null, '', window.location.href);
+        window.addEventListener('popstate', function() {
+            // اگه کاربر Back بزنه و به این صفحه برگرده
+            // می‌فرستیمش بیرون (بسته شدن)
+            window.close();
+            // اگه close کار نکرد، به اینستاگرام برمی‌گرده
+            setTimeout(function() {
+                window.location.href = 'https://instagram.com';
+            }, 300);
+        });
+    </script>
+
+</body>
+</html>
